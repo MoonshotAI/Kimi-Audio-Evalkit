@@ -1,0 +1,9 @@
+[submodule "almeval/models/glm4voice"]
+	path = almeval/models/glm4voice
+	url = https://github.com/THUDM/GLM-4-Voice.git
+[submodule "almeval/models/stepaudio"]
+	path = almeval/models/stepaudio
+	url = https://github.com/stepfun-ai/Step-Audio.git
+[submodule "almeval/models/kimi_audio"]
+	path = almeval/models/kimi_audio
+	url = https://github.com/MoonshotAI/Kimi-Audio.git

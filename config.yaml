@@ -1,0 +1,26 @@
+DATASETS:
+  dataset_root: "data/downloaded_datasets"
+  datasets:
+    #example:
+    example: "/path/to/your/dataset/example.jsonl"
+
+MODELS:
+  # Baichuan series
+  Baichuan-Audio-Base: "baichuan-inc/Baichuan-Audio-Base"
+  Baichuan-Audio-Instruct: "baichuan-inc/Baichuan-Audio-Instruct"
+
+  # Qwen series
+  Qwen2-Audio-7B: "Qwen/Qwen2-Audio-7B"
+  Qwen2-Audio-7B-Instruct: "Qwen/Qwen2-Audio-7B-Instruct"
+  Qwen2.5-Omni-7B: "Qwen/Qwen2.5-Omni-7B"
+
+  # GLM4
+  GLM4-Voice: "THUDM/glm-4-voice-9b"
+
+  # StepAudio
+  StepAudio: "/path/to/your/StepAudio"
+
+  # Kimi-Audio
+  Kimi-Audio: "/path/to/your/Kimi-Audio"
+
+    
