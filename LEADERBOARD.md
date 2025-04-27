@@ -399,5 +399,5 @@
 
 
 ## Updates
-- 2024-04-25: Initial leaderboard created
+- 2025-04-25: Initial leaderboard created
 
