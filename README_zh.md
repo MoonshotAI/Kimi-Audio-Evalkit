@@ -6,7 +6,7 @@
 
 Kimi-Audio-Evalkit是一个为音频大模型评测设计的评测框架，基于Kimi-Audio-Evalkit，你可以快速实现自己的模型或数据集，并公平的与其他开源模型进行比对。
 
-我们的工作(Kimi-Audio)[https://github.com/MoonshotAI/Kimi-Audio-Evalkit]基于此框架评测。
+我们的工作[Kimi-Audio](https://github.com/MoonshotAI/Kimi-Audio-Evalkit)基于此框架评测。
 
 [Leaderboard](./LEADERBOARD.md)是目前的评测结果。
 

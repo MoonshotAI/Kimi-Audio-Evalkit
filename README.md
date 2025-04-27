@@ -6,7 +6,7 @@
 
 Kimi-Audio-Evalkit is an evaluation framework designed for audio large language models. Based on Kimi-Audio-Evalkit, you can quickly implement your own models or datasets and conduct fair comparisons with other open-source models.
 
-Our work [Kimi-Audio](https://github.com/MoonshotAI/Kimi-Audio-Evalkit)is evaluated using this framework. 
+Our work [Kimi-Audio](https://github.com/MoonshotAI/Kimi-Audio-Evalkit) is evaluated using this framework.
 
 See [Leaderboard](./LEADERBOARD.md) for current results.
 
