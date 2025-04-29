@@ -42,12 +42,6 @@ ALMEvalKit所用的大部分数据集都可以通过我们附带的工具下载�
 DATASETS:
   dataset_root: "/path/to/your/dataset/root"
 ```
-部分模型不支持直接from_huggingface下载，此时你需要根据其官方提示手动下载，将位置传入MODELS的对应字段
-```yaml
-MODELS:
-  # StepAudio
-  StepAudio: "/path/to/your/StepAudio"
-```
 
 ### Step5: 评测
 
