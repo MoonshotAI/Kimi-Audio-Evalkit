@@ -42,13 +42,6 @@ You may need to fill in several fields in the config.yaml in the root directory 
 DATASETS:
   dataset_root: "/path/to/your/dataset/root"
 ```
-Some models don't support direct download from huggingface. In this case, you need to download manually according to their official instructions and pass the location to the corresponding field in MODELS
-```yaml
-MODELS:
-  # StepAudio
-  StepAudio: "/path/to/your/StepAudio"
-```
-
 ### Step5: Evaluation
 
 run_audio.sh is the entry point for evaluation. You can get help using `--help`

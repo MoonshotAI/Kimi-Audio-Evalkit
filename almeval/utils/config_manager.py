@@ -51,7 +51,3 @@ class ConfigManager:
     def get_dataset_path(self, dataset_name: str) -> str | None:
         """get dataset file path"""
         return self._config['DATASETS']['datasets'].get(dataset_name, None)
-
-    def get_model_path(self, model_name: str) -> str | None:
-        """get model path"""
-        return self._config['MODELS'].get(model_name, None)

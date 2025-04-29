@@ -39,8 +39,4 @@ def build_model(name, **kwargs):
     if name not in supported_models:
         raise ValueError(
             f'Model {name} not supported, all supported models: {supported_models.keys()}')
-    config_manager = ConfigManager()
-    model_path = config_manager.get_model_path(name)
-    if model_path is None:
-        raise ValueError(f'Model {name} not found in config.yaml')
-    return supported_models[name](model_path=model_path, **kwargs)
+    return supported_models[name](**kwargs)

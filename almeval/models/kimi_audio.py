@@ -10,7 +10,7 @@ from .base import BaseModel
 class KimiAudio(BaseModel):
     NAME = 'Kimi-Audio'
 
-    def __init__(self, model_path, **kwargs):
+    def __init__(self, model_path='moonshotai/Kimi-Audio-7B-Instruct', **kwargs):
         assert model_path is not None
         self.model = KimiAudio_hf(
             model_path=model_path, load_detokenizer=False)

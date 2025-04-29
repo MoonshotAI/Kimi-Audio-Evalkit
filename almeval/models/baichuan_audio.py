@@ -19,7 +19,6 @@ class BaichuanAudioBase(BaseModel):
     NAME = 'Baichuan-Audio'
 
     def __init__(self, model_path='baichuan-inc/Baichuan-Audio-Base', **kwargs):
-        assert model_path is not None
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_path, trust_remote_code=True, model_max_length=128000)
         self.model = AutoModelForCausalLM.from_pretrained(

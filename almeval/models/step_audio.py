@@ -7,15 +7,23 @@ from ..utils.misc import print_once
 from .base import BaseModel
 from .stepaudio.tokenizer import StepAudioTokenizer
 from .stepaudio.utils import load_audio, load_optimus_ths_lib
+from huggingface_hub import snapshot_download
 
 
 class StepAudio(BaseModel):
     NAME = 'StepAudio'
 
-    def __init__(self, model_path: str):
+    def __init__(self, model_path: str | None = None):
         super().__init__()
-        tokenizer_path = os.path.join(model_path, 'Step-Audio-Tokenizer')
-        llm_path = os.path.join(model_path, 'Step-Audio-Chat')
+        # step-audio requires tokenizer & llm, if model_path is local path, try to find tokenizer & llm in the path
+        # else, load from huggingface
+        if model_path is not None:
+            tokenizer_path = os.path.join(model_path, 'Step-Audio-Tokenizer')
+            llm_path = os.path.join(model_path, 'Step-Audio-Chat')
+        else:
+            tokenizer_path = snapshot_download('stepfun-ai/Step-Audio-Tokenizer')
+            llm_path = snapshot_download('stepfun-ai/Step-Audio-Chat')
+            
         load_optimus_ths_lib(os.path.join(llm_path, 'lib'))
         self.llm_tokenizer = AutoTokenizer.from_pretrained(
             llm_path, trust_remote_code=True
