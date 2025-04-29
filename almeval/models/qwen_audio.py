@@ -142,8 +142,4 @@ class Qwen2AudioChat(BaseModel):
         answer = self.processor.batch_decode(
             generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False
         )[0]
-        # Chat model is not suitable for ASR, if you want to do ASR, you may need to remove some prefix.
-        if msg['meta']['task'] == 'ASR' and answer.strip().startswith('the original content of this audio is'):
-            answer = answer.strip().split(
-                'the original content of this audio is')[1].strip()
         return prompt, answer
