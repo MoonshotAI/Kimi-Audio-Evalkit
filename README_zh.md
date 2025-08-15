@@ -49,7 +49,7 @@ run_audio.sh为评测入口，你可以通过`--help`取得帮助
 
 例如，我们希望跑Kimi-Audio在全部数据集上的结果：
 ```
-bash run_audio.sh --model Kimi-Audio --dataset all --skip-eval
+bash run_audio.sh --model Kimi-Audio --data all --skip-eval
 ```
 默认情况下，推理结果文件、评测结果文件、指标报告文件将生成在当前目录的eval_results目录下，你可以通过传递--work-dir改变这一行为。
 
@@ -59,7 +59,7 @@ bash run_audio.sh --model Kimi-Audio --dataset all --skip-eval
 Note: 我们默认的LLM方式是gpt-4o-mini，你需要设定你自己的API KEY来启用。未来我们将支持更多评测模型。
 ```
 export OPENAI_API_KEY=your_api_key
-bash run_audio.sh --model Kimi-Audio --dataset all --reeval
+bash run_audio.sh --model Kimi-Audio --data all --reeval
 ```
 
 目前已经支持的模型、数据集和评测模型列表如下

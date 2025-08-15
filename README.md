@@ -48,7 +48,7 @@ run_audio.sh is the entry point for evaluation. You can get help using `--help`
 
 For example, to evaluate Kimi-Audio on all datasets:
 ```
-bash run_audio.sh --model Kimi-Audio --dataset all --skip-eval
+bash run_audio.sh --model Kimi-Audio --data all --skip-eval
 ```
 By default, inference results, evaluation results, and metric reports will be generated in the eval_results directory under the current directory. You can change this behavior by passing --work-dir.
 
@@ -58,7 +58,7 @@ After inference is complete, you can run the command again to start evaluation. 
 Note: Our default LLM method is gpt-4o-mini. You need to set your own API KEY to enable it. We will support more evaluation models in the future.
 ```
 export OPENAI_API_KEY=your_api_key
-bash run_audio.sh --model Kimi-Audio --dataset all --reeval
+bash run_audio.sh --model Kimi-Audio --data all --reeval
 ```
 
 Currently supported models, datasets, and evaluation models are listed below:
