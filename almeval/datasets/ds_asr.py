@@ -11,10 +11,9 @@ class ASRDataset(AudioBaseDataset):
     TASK = 'ASR'
     LANG = None
 
-    def meta(self):
-        meta = super().meta()
-        meta['lang'] = self.LANG
-        return meta
+    def __init__(self):
+        super().__init__()
+        self.meta['lang'] = self.LANG
 
     def evaluate(self, eval_file, dump_judge=True, method='qwen2-audio-impl'):
         # ASR always use qwen2-audio-impl
