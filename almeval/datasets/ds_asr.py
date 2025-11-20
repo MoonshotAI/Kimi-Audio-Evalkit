@@ -15,18 +15,27 @@ class ASRDataset(AudioBaseDataset):
         super().__init__()
         self.meta['lang'] = self.LANG
 
-    def evaluate(self, eval_file, dump_judge=True, method='qwen2-audio-impl'):
-        # ASR always use qwen2-audio-impl
-        method = 'qwen2-audio-impl'
-        metrics = self.evaluate_qwen2(eval_file, dump_judge=dump_judge)
+    def evaluate(self, eval_file, dump_judge=True, method=None):
+        metrics = self.evaluate_asr_from_file(eval_file, dump_judge=dump_judge)
         logger.info(
-            f'evaluating result of {self.DATASET_NAME} with method: qwen2-audio-impl')
+            f'evaluating result of {self.DATASET_NAME}, directly based on the qwen2-audio implementation (https://github.com/QwenLM/Qwen2-Audio/blob/595360e82b5839c1507492ec83cae5bda6d5c7d4/eval_audio/evaluate_asr.py#L165-L269) and method parameter is ignored.'
+            )
         model_name = self.get_model_name(eval_file)
         result = self.format_performance(
             model_name=model_name, performance=metrics, eval_method=method)
         return result
 
-    def evaluate_qwen2(self, eval_file, dump_judge=False):
+    def evaluate_asr_from_file(self, eval_file, dump_judge=False):
+        '''Evaluate ASR from the eval_file (.jsonl).
+        This is based on the qwen2-audio (https://github.com/QwenLM/Qwen2-Audio/blob/595360e82b5839c1507492ec83cae5bda6d5c7d4/eval_audio/evaluate_asr.py#L165-L269).
+
+        Args:
+            eval_file (str): Path to the eval_file (.jsonl).
+            dump_judge (bool, optional): Whether to dump the judge result to the save_file (`save_file=eval_file.replace('.jsonl', '_wer_details.jsonl')`). Defaults to False.
+
+        Returns:
+            dict: Task result for different data subsets.
+        '''
         assert self.LANG is not None, 'Please specify the language of the dataset'
         metrics = {}
         lang = self.LANG
