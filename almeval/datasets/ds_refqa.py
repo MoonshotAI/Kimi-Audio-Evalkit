@@ -20,7 +20,11 @@ Input:
 Question: The question from user
 Model Answer: The answer from models
 Ground Truth Answer: The ground truth answer
+
+The output format is:
+Output:
 Explanation: The explanation of your judgment process
+Result: whether the model's output is correct, answer with yes or no
 
 Example 1:
 Input:
