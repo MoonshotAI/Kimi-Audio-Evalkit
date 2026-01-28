@@ -21,7 +21,7 @@ python download_benchmark.py --output-dir ~/downloaded_datasets --dataset WenetS
 
 ### Others
 
-1. Run the following command in your terminal to download all dataset(If you only want to download a single dataset, the dataset name is as follows: VoiceBench, OpenAudioBench, LibriSpeech, WenetSpeech, Fleurs, AISHELL-1, AISHELL-2, MMAU, ClothoAQA, VocalSound, Nonspeech7k, MELD, TUT2017, CochlScene)
+1. Run the following command in your terminal to download all dataset(If you only want to download a single dataset, the dataset name is as follows: VoiceBench, OpenAudioBench, LibriSpeech, WenetSpeech, Fleurs, AISHELL-1, AISHELL-2, MMAU, ClothoAQA, VocalSound, Nonspeech7k, MELD, TUT2017, CochlScene, SpeechFCEvalDownloader)
 
 ```bash
 python download_benchmark.py --output-dir ~/downloaded_datasets --dataset all

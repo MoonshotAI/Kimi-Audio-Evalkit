@@ -69,7 +69,7 @@ bash run_audio.sh --model Kimi-Audio --data all --reeval
 - **Baichuan Series**: Baichuan-Audio-Base, Baichuan-Audio-Instruct
 - **Qwen Series**: Qwen2-Audio-7B, Qwen2-Audio-7B-Instruct, Qwen2.5-Omni-7B
 - **GLM Series**: GLM4-Voice
-- **Others**: StepAudio, Kimi-Audio
+- **Others**: StepAudio, Kimi-Audio, Fun-Audio-Chat
 
 **数据集**
 | 数据集类型 | 数据集 |
@@ -77,7 +77,7 @@ bash run_audio.sh --model Kimi-Audio --data all --reeval
 | ASR | LibriSpeech, Fleurs-zh, Fleurs-en, AISHELL-1, AISHELL-2, WenetSpeech |
 | MQA | mmau-test-mini, openbookqa, mmsu, MELD, Nonspeech7k, TUT2017, VocalSound, CochlScene |
 | OpenQA | alpacaeval_full, commoneval, advbench, ifeval |
-| RefQA | ClothoAQA, sd-qa, OpenAudioBench |
+| RefQA | ClothoAQA, sd-qa, OpenAudioBench, SpeechFC_ACEBench_Single, SpeechFC_ACEBench_Parallel, SpeechFC_BFCL_Parallel, SpeechFC_BFCL_Single, SpeechFC_SmartInteract |
 
 - 数据集的类型、归属等更多信息，可以查看相关数据集的实现。
 
