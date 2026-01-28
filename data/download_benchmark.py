@@ -13,6 +13,7 @@ import jsonlines
 import zipfile
 from loguru import logger
 from tqdm import tqdm
+from huggingface_hub import snapshot_download
 import gdown
 import requests
 
@@ -1244,6 +1245,53 @@ class CochlsceneDownloader(DatasetDownloader):
         return True
 
 
+class SpeechFCEvalDownloader(DatasetDownloader):
+    """Downloader for SpeechFCEval dataset."""
+    
+    def download(self) -> bool:
+        print("Downloading SpeechFCEval dataset...")
+        if not os.path.exists(os.path.join(self.output_dir, "SpeechFCEval")):
+            # result = os.system(f"git lfs clone https://huggingface.co/datasets/FunAudioLLM/SpeechFCEval {self.output_dir}/")
+            # if result != 0:
+            #     raise RuntimeError("Failed to clone SpeechFCEval repository, is git lfs installed?")
+            snapshot_download(repo_id="FunAudioLLM/SpeechFCEval", repo_type="dataset", local_dir=self.output_dir, resume_download=True)
+        else:
+            print("SpeechFCEval repository already exists")
+
+        all_subsets = ["SpeechFC_ACEBench_Single", "SpeechFC_ACEBench_Parallel", "SpeechFC_BFCL_Parallel", "SpeechFC_BFCL_Single", "SpeechFC_SmartInteract"]
+
+        for subset in all_subsets:
+            self.metadata = []
+            index = 0
+            meta_path = os.path.join(self.output_dir, f"{subset}.jsonl")
+            if os.path.exists(meta_path):
+                print(f"Skipping SpeechFCEval {subset} dataset because it already exists")
+                return True
+            metadata_path = os.path.join(self.output_dir, subset, "metadata.jsonl")
+            with open(metadata_path, 'r', encoding="utf-8") as f:
+                meta_json = [json.loads(line.strip()) for line in f if line.strip()]
+            for item in meta_json:
+                audio_path = os.path.join(self.output_dir, subset, item["file_name"])
+                assert os.path.exists(audio_path), f"Audio file {audio_path} does not exist"
+                self.metadata.append({
+                    "index": index,
+                    "audio_path": audio_path,
+                    "subset": subset,
+                    "question": "", # no question since in SpeechFCEval, the question is in audio
+                    "audio_content": item["utterance"],
+                    "answer": item["ground_truth"],
+                    "time": item["time"],
+                    "function": item["function"],
+                    "task_type": "audio2text",
+                })
+                index += 1
+            
+            with open(meta_path, 'w', encoding="utf-8") as f:
+                for metadata in self.metadata:
+                    f.write(json.dumps(metadata, ensure_ascii=False) + '\n')
+        print(f"Completed processing SpeechFCEval dataset. Metadata saved to {meta_path}")
+        return True
+
 
 # Registry of all available dataset downloaders
 DATASET_REGISTRY = {
@@ -1261,6 +1309,7 @@ DATASET_REGISTRY = {
     "MELD": MeldDownloader,
     "TUT2017": TUT2017Downloader,
     "CochlScene": CochlsceneDownloader,
+    "SpeechFCEval": SpeechFCEvalDownloader,
 }
 
 

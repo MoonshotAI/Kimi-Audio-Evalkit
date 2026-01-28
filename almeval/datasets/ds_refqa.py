@@ -171,6 +171,98 @@ or "incorrect">}}
 }
 
 
+ACE_PROMPTS = """
+You are an expert in judging whether model tool calls are correct. If the model's tool calls is correct, output "yes", otherwise output "no".
+You should carefully compare the output format to see if it matches, and whether the values ​​and types of the parameters are the same as ground_truth, then output "yes" or "no".
+If the answer is 'no', you should provide a specific Explanation for the answer being "no".
+
+The input format is:
+Input:
+Question: The question from user
+Model Answer: The answer from models
+Ground Truth Answer: The ground truth answer
+
+The output format is:
+Output:
+Explanation: The explanation of your judgment process
+Result: yes or no
+
+Example 1:
+Input:
+Question: 我需要计划下月的汽车保养。车辆识别码为WXZ123，保养计划包括6月15日和6月30日两次保养，每次保养包括更换机油和轮胎检查。
+Model Answer: <tool_call>
+{{"name": "Vehicle_Maintenance_Scheduler", "arguments": {{"maintenanceSchedule": [{{"vehicle_id": "WZX123", "schedule_details": {{"maintenance_dates": ["2023-06-15", "2023-06-30"], "tasks": ["更换机油", "轮胎检查"]}}}}]}}}}
+</tool_call>
+Ground Truth Answer: {{"Vehicle_Maintenance_Scheduler": {{"maintenanceSchedule": [{{"vehicle_id": "WXZ123", "schedule_details": {{"maintenance_dates": ["2023-06-15", "2023-06-30"], "tasks": ["更换机油", "轮胎检查"]}}}}]}}}}
+Output:
+Explanation: The values ​​of vehicle_id are inconsistent. the actual vehicle_id value is **WXZ123**, and the model predicts **WZX123**.
+Result: no
+
+Example 2:
+Input:
+Question: 我需要计划下月的汽车保养。车辆识别码为WXZ123，保养计划包括6月15日和6月30日两次保养，每次保养包括更换机油和轮胎检查。
+Model Answer: <tool_call>
+{{"name": "Vehicle_Maintenance_Scheduler", "arguments": {{"maintenanceSchedule": [{{"vehicle_id": "WXZ123", "schedule_details": {{"maintenance_dates": ["2023-06-15", "2023-06-30"], "tasks": ["更换机油", "轮胎检查"]}}}}]}}}}
+</tool_call>
+Ground Truth Answer: {{"Vehicle_Maintenance_Scheduler": {{"maintenanceSchedule": [{{"vehicle_id": "WXZ123", "schedule_details": {{"maintenance_dates": ["2023-06-15", "2023-06-30"], "tasks": ["更换机油", "轮胎检查"]}}}}]}}}}
+Output: 
+Explanation: All parameters and formats are consistent
+Result: yes
+
+
+Task:
+Input:
+Question: {question}
+Model Answer: {prediction}
+Ground Truth Answer: {answer}
+Output:
+"""
+
+
+BFCL_PROMPTS = """
+You are an expert in judging whether model tool calls are correct. If the model's tool calls is correct, output "yes", otherwise output "no".
+You should carefully compare the output format to see if it matches, and whether the values ​​and types of the parameters are the same as ground_truth, then output "yes" or "no".
+If the answer is 'no', you should provide a specific Explanation for the answer being "no".
+
+The input format is:
+Input:
+Question: The question from user
+Model Answer: The answer from models
+Ground Truth Answer: The ground truth answer
+
+The output format is:
+Output:
+Explanation: The explanation of your judgment process
+Result: yes or no
+
+Example 1:
+Input:
+Question: Find the area of a triangle with a base of 10 units and height of 5 units.
+Model Answer: <tool_call>{{"name": "calculate_triangle_area", "arguments": {{"base": 10, "height": 5, "unit": "units"}}}}</tool_call>
+Ground Truth Answer: [{{"type": "function", "function": {{"name": "calculate_triangle_area", "description": "Calculate the area of a triangle given its base and height.", "parameters": {{"type": "dict", "properties": {{"base": {{"type": "integer", "description": "The base of the triangle."}}, "height": {{"type": "integer", "description": "The height of the triangle."}}, "unit": {{"type": "string", "description": "The unit of measure (defaults to 'units' if not specified)"}}}}}}, "required": ["base", "height"]}}}}]
+Output:
+Explanation: All parameters and formats are consistent
+Result: yes
+
+Example 2:
+Input:
+Question: Find the area of a triangle with a base of 10 units and height of 5 units.
+Model Answer: <tool_call>{{"name": "calculate_triangle_area", "arguments": {{"base": 10, "heights": 5, "unit": "units"}}}}</tool_call>
+Ground Truth Answer: [{{"type": "function", "function": {{"name": "calculate_triangle_area", "description": "Calculate the area of a triangle given its base and height.", "parameters": {{"type": "dict", "properties": {{"base": {{"type": "integer", "description": "The base of the triangle."}}, "height": {{"type": "integer", "description": "The height of the triangle."}}, "unit": {{"type": "string", "description": "The unit of measure (defaults to 'units' if not specified)"}}}}}}, "required": ["base", "height"]}}}}]
+Output:
+Explanation: The function's input parameter variable names are different; the actual variable is **height**, and the model predicts **heights**.
+Result: no
+
+
+Task:
+Input:
+Question: {question}
+Model Answer: {prediction}
+Ground Truth Answer: {answer}
+Output:
+"""
+
+
 class AudioRefQADataset(AudioBaseDataset):
     INTERACTIVE = 'Audio-analysis'
     TASK = 'Ref-QA'
@@ -239,6 +331,14 @@ class AudioRefQADataset(AudioBaseDataset):
             temperature = 0.0
             top_p = 0.95
             prompt = SQ_QA_PROMPT
+        elif self.DATASET_NAME in ['SpeechFC_ACEBench_Single', 'SpeechFC_ACEBench_Parallel']:
+            temperature = 0.0
+            top_p = 0.95
+            prompt = ACE_PROMPTS
+        elif self.DATASET_NAME in ['SpeechFC_BFCL_Single', 'SpeechFC_BFCL_Parallel', 'SpeechFC_SmartInteract']:
+            temperature = 0.0
+            top_p = 0.95
+            prompt = BFCL_PROMPTS
         else:
             temperature = 0.0
             top_p = 0.95
@@ -385,3 +485,98 @@ class OpenAudioBench(AudioRefQADataset):
             print(f'{subset} performance: {metrics}')
 
         return metrics, judge_results
+
+
+class SpeechFC_ACEBench_Single(AudioRefQADataset):
+    DATASET_NAME = 'SpeechFC_ACEBench_Single'
+    DATASET_SERIES = 'SpeechFCEval'
+    AUDIO_TYPE = 'Speech'
+    INTERACTIVE = 'Audio-QA'
+
+    def build_prompt(self, idx: int | str) -> dict:
+        msg = super().build_prompt(idx)
+        if isinstance(idx, str) and idx.isdigit():
+            item = self.data[int(idx)]
+        if isinstance(idx, int):
+            item = self.data[idx]
+
+        msg['function'] = item['function']
+        msg['time'] = item['time']
+
+        return msg
+
+
+class SpeechFC_ACEBench_Parallel(AudioRefQADataset):
+    DATASET_NAME = 'SpeechFC_ACEBench_Parallel'
+    DATASET_SERIES = 'SpeechFCEval'
+    AUDIO_TYPE = 'Speech'
+    INTERACTIVE = 'Audio-QA'
+
+    def build_prompt(self, idx: int | str) -> dict:
+        msg = super().build_prompt(idx)
+        if isinstance(idx, str) and idx.isdigit():
+            item = self.data[int(idx)]
+        if isinstance(idx, int):
+            item = self.data[idx]
+
+        msg['function'] = item['function']
+        msg['time'] = item['time']
+
+        return msg
+
+
+class SpeechFC_BFCL_Parallel(AudioRefQADataset):
+    DATASET_NAME = 'SpeechFC_BFCL_Parallel'
+    DATASET_SERIES = 'SpeechFCEval'
+    AUDIO_TYPE = 'Speech'
+    INTERACTIVE = 'Audio-QA'
+
+    def build_prompt(self, idx: int | str) -> dict:
+        msg = super().build_prompt(idx)
+        if isinstance(idx, str) and idx.isdigit():
+            item = self.data[int(idx)]
+        if isinstance(idx, int):
+            item = self.data[idx]
+
+        msg['function'] = item['function']
+        msg['time'] = item['time']
+
+        return msg
+
+
+class SpeechFC_BFCL_Single(AudioRefQADataset):
+    DATASET_NAME = 'SpeechFC_BFCL_Single'
+    DATASET_SERIES = 'SpeechFCEval'
+    AUDIO_TYPE = 'Speech'
+    INTERACTIVE = 'Audio-QA'
+
+    def build_prompt(self, idx: int | str) -> dict:
+        msg = super().build_prompt(idx)
+        if isinstance(idx, str) and idx.isdigit():
+            item = self.data[int(idx)]
+        if isinstance(idx, int):
+            item = self.data[idx]
+
+        msg['function'] = item['function']
+        msg['time'] = item['time']
+
+        return msg
+
+
+class SpeechFC_SmartInteract(AudioRefQADataset):
+    DATASET_NAME = 'SpeechFC_SmartInteract'
+    DATASET_SERIES = 'SpeechFCEval'
+    AUDIO_TYPE = 'Speech'
+    INTERACTIVE = 'Audio-QA'
+
+    def build_prompt(self, idx: int | str) -> dict:
+        msg = super().build_prompt(idx)
+        if isinstance(idx, str) and idx.isdigit():
+            item = self.data[int(idx)]
+        if isinstance(idx, int):
+            item = self.data[idx]
+
+        msg['function'] = item['function']
+        msg['time'] = item['time']
+
+        return msg

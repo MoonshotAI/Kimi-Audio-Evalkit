@@ -7,3 +7,6 @@
 [submodule "almeval/models/kimi_audio"]
 	path = almeval/models/kimi_audio
 	url = https://github.com/MoonshotAI/Kimi-Audio.git
+[submodule "almeval/models/fun_audio_chat"]
+	path = almeval/models/fun_audio_chat
+	url = https://github.com/FunAudioLLM/Fun-Audio-Chat.git

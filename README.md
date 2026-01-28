@@ -68,7 +68,7 @@ Currently supported models, datasets, and evaluation models are listed below:
 - **Baichuan Series**: Baichuan-Audio-Base, Baichuan-Audio-Instruct
 - **Qwen Series**: Qwen2-Audio-7B, Qwen2-Audio-7B-Instruct, Qwen2.5-Omni-7B
 - **GLM Series**: GLM4-Voice
-- **Others**: StepAudio, Kimi-Audio
+- **Others**: StepAudio, Kimi-Audio, Fun-Audio-Chat
 
 **Datasets**
 
@@ -77,7 +77,7 @@ Currently supported models, datasets, and evaluation models are listed below:
 | ASR | LibriSpeech, Fleurs-zh, Fleurs-en, AISHELL-1, AISHELL-2, WenetSpeech |
 | MQA | mmau-test-mini, openbookqa, mmsu, MELD, Nonspeech7k, TUT2017, VocalSound, CochlScene |
 | OpenQA | alpacaeval_full, commoneval, advbench, ifeval |
-| RefQA | ClothoAQA, sd-qa, OpenAudioBench |
+| RefQA | ClothoAQA, sd-qa, OpenAudioBench, SpeechFC_ACEBench_Single, SpeechFC_ACEBench_Parallel, SpeechFC_BFCL_Parallel, SpeechFC_BFCL_Single, SpeechFC_SmartInteract |
 
 - For more information about dataset types, ownership, etc., please check the implementation of the relevant datasets.
 
