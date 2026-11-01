@@ -216,7 +216,7 @@ class AudioRefQADataset(AudioBaseDataset):
                 continue
             ground_truth = group['answer'].astype(str).to_list()
             preds = group['prediction'].astype(str).to_list()
-            prompts = group['prompt'].astype(str).to_list()
+            prompts = self.get_LLM_query(group)
             results = []
             for idx in range(len(preds)):
                 pred = preds[idx]
