@@ -146,7 +146,7 @@ class AudioOpenQADataset(AudioBaseDataset):
             from ..metrics.ifeval import InputExample, evaluate
             preds = group['prediction'].astype(str).to_list()
             indexes = group['index'].astype(int).to_list()
-            prompts = group['prompt'].astype(str).to_list()
+            prompts = self.get_LLM_query(group)
             instructions = group['instruction'].to_list()
             kwargses = group['instruction_kwargs'].to_list()
 
@@ -192,10 +192,11 @@ class AudioOpenQADataset(AudioBaseDataset):
                     continue
                 df = pd.DataFrame(judge_result)
                 all_df.append(df)
-            all_df = pd.concat(all_df)
-            save_file = eval_file.replace(
-                '.jsonl', f'_{judge_model_name}_judge.jsonl')
-            df.to_json(save_file, orient='records', lines=True)
+            if all_df:
+                all_df = pd.concat(all_df)
+                save_file = eval_file.replace(
+                    '.jsonl', f'_{judge_model_name}_judge.jsonl')
+                all_df.to_json(save_file, orient='records', lines=True)
         return result
 
     @staticmethod
